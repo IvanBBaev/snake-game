@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 
-// Served from https://leasstatt.github.io/snake-game/ on GitHub Pages, so the
+// Served from https://ivanbbaev.github.io/snake-game/ on GitHub Pages, so the
 // production base path must match the repo name. Dev server ignores `base`.
 export default defineConfig({
   base: "/snake-game/",

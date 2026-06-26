@@ -3,7 +3,7 @@
 Classic Snake game built with **TypeScript**, **HTML5 Canvas** and **Vite**.
 Game logic is fully decoupled from rendering, so it is unit-testable without a DOM.
 
-**▶ Play:** https://leasstatt.github.io/snake-game/
+**▶ Play:** https://ivanbbaev.github.io/snake-game/
 
 ## Getting started
 
