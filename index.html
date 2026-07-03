@@ -70,6 +70,18 @@
         color: #8a909c;
         margin: 0;
       }
+      #support {
+        font-size: 0.85rem;
+        color: #8a909c;
+        margin: 0;
+      }
+      #support a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      #support a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -84,6 +96,10 @@
       <select id="skin"></select>
     </div>
     <p id="hint">Arrows / WASD to move &middot; Space or Enter to restart</p>
+    <p id="support">
+      Enjoying it?
+      <a href="https://ko-fi.com/ivanbbaev" target="_blank" rel="noopener noreferrer">&#9749; Support</a>
+    </p>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
