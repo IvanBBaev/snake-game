@@ -5,12 +5,26 @@ import { SKINS, DEFAULT_SKIN_ID, getSkin } from "./skins";
 import type { GameConfig, GameState } from "./types";
 import type { Skin } from "./skins";
 
-const CONFIG: Partial<GameConfig> = {
-  width: 20,
-  height: 20,
+// Settings shared across every board size. Width/height are chosen at runtime.
+const BASE_CONFIG: Partial<GameConfig> = {
   initialSnakeLength: 3,
   tickIntervalMs: 120,
 };
+
+interface BoardSize {
+  id: string;
+  name: string;
+  width: number;
+  height: number;
+}
+
+// Square boards so cells stay square on the fixed square canvas.
+const BOARD_SIZES: readonly BoardSize[] = [
+  { id: "small", name: "Small · 12×12", width: 12, height: 12 },
+  { id: "medium", name: "Medium · 20×20", width: 20, height: 20 },
+  { id: "large", name: "Large · 30×30", width: 30, height: 30 },
+];
+const DEFAULT_SIZE_ID = "medium";
 
 // Optional speed ramp: shave time off the tick every few points, down to a floor.
 const SPEED_STEP_MS = 6;
@@ -19,11 +33,46 @@ const MIN_INTERVAL_MS = 60;
 
 const BEST_SCORE_KEY = "snake.bestScore";
 const SKIN_KEY = "snake.skin";
+const SIZE_KEY = "snake.size";
 
 function tickInterval(state: GameState): number {
-  const base = CONFIG.tickIntervalMs ?? 120;
+  const base = BASE_CONFIG.tickIntervalMs ?? 120;
   const steps = Math.floor(state.score / SPEED_EVERY_POINTS);
   return Math.max(MIN_INTERVAL_MS, base - steps * SPEED_STEP_MS);
+}
+
+function getBoardSize(id: string): BoardSize {
+  return BOARD_SIZES.find((s) => s.id === id) ?? BOARD_SIZES[1];
+}
+
+function configFor(size: BoardSize): Partial<GameConfig> {
+  return { ...BASE_CONFIG, width: size.width, height: size.height };
+}
+
+function loadSizeId(): string {
+  try {
+    return localStorage.getItem(SIZE_KEY) ?? DEFAULT_SIZE_ID;
+  } catch {
+    return DEFAULT_SIZE_ID;
+  }
+}
+
+function saveSizeId(id: string): void {
+  try {
+    localStorage.setItem(SIZE_KEY, id);
+  } catch {
+    /* ignore storage failures */
+  }
+}
+
+function populateSizeSelect(select: HTMLSelectElement, currentId: string): void {
+  for (const size of BOARD_SIZES) {
+    const option = document.createElement("option");
+    option.value = size.id;
+    option.textContent = size.name;
+    if (size.id === currentId) option.selected = true;
+    select.appendChild(option);
+  }
 }
 
 function loadBestScore(): number {
@@ -82,11 +131,14 @@ function main(): void {
   const scoreEl = document.getElementById("score");
   const bestEl = document.getElementById("best");
   const skinSelect = document.getElementById("skin") as HTMLSelectElement | null;
+  const sizeSelect = document.getElementById("size") as HTMLSelectElement | null;
   if (!canvas) throw new Error("Canvas #game not found");
 
   const renderer = createRenderer(canvas);
 
-  let state = createGame(CONFIG);
+  let boardSize = getBoardSize(loadSizeId());
+  let config = configFor(boardSize);
+  let state = createGame(config);
   let best = loadBestScore();
   let skin = getSkin(loadSkinId());
 
@@ -119,10 +171,25 @@ function main(): void {
     },
     onRestart: () => {
       if (state.status !== "playing") {
-        state = createGame(CONFIG);
+        state = createGame(config);
       }
     },
   });
+
+  if (sizeSelect) {
+    populateSizeSelect(sizeSelect, boardSize.id);
+    sizeSelect.addEventListener("change", () => {
+      boardSize = getBoardSize(sizeSelect.value);
+      saveSizeId(boardSize.id);
+      // Changing the board size starts a fresh game on the new grid.
+      config = configFor(boardSize);
+      state = createGame(config);
+      updateHud();
+      renderer.render(state, skin);
+      // Return focus to the game so arrow keys keep working.
+      sizeSelect.blur();
+    });
+  }
 
   let last = performance.now();
   let accumulator = 0;
