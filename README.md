@@ -1,7 +1,7 @@
 # Snake
 
 <!-- badges:start -->
-| [![node](https://img.shields.io/badge/node-%3E%3D18-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org) | [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE) | [![CI](https://img.shields.io/github/actions/workflow/status/IvanBBaev/snake-game/deploy.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white&label=CI)](https://github.com/IvanBBaev/snake-game/actions/workflows/deploy.yml) | [![last commit](https://img.shields.io/github/last-commit/IvanBBaev/snake-game?style=flat-square&logo=git&logoColor=white&label=last%20commit)](https://github.com/IvanBBaev/snake-game/commits/main) | [![built with TypeScript](https://img.shields.io/badge/built%20with-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org) |
+| [![node](https://img.shields.io/badge/node-%3E%3D18-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org) | [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE) | [![CI](https://img.shields.io/github/actions/workflow/status/IvanBBaev/snake-game/deploy.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white&label=CI)](https://github.com/IvanBBaev/snake-game/actions/workflows/deploy.yml) | [![last commit](https://img.shields.io/github/last-commit/IvanBBaev/snake-game?style=flat-square&logo=git&logoColor=white&label=last-commit)](https://github.com/IvanBBaev/snake-game/commits/main) | [![built with TypeScript](https://img.shields.io/badge/built%20with-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org) |
 | :--: | :--: | :--: | :--: | :--: |
 <!-- badges:end -->
 
